@@ -52,10 +52,11 @@ while True:
     show_list()
     shift()
     for message in in_port.iter_pending():
-        if m_type == 'note_on':
-            m_note, m_type = message.note, message.type
+        if message.type == 'note_on':
+            m_note = message.note
             notes.append(m_note)
-        elif m_type == 'note_off':
+        elif message.type == 'note_off':
+            m_note = message.note
             notes.remove(m_note)
 
     colors = []
