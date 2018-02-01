@@ -60,7 +60,9 @@ while True:
 
     colors = []
     for note in notes:
-        color_value = map_value(note, 21, 108, 0, 1)
+        scale_note = (note - 21) % 12
+        #  color_value = map_value(note, 21, 108, 0, 1)
+        color_value = map_value(scale_note, 0, 11, 0, 1)
         colors.append(Color(hsv_to_rgb(color_value, 1, 1), 'RGB'))
 
     if colors:
