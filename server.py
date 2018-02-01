@@ -21,7 +21,7 @@ def map_value(i, il, ih, ol, oh):
     return (i - il) / (ih - il) * (oh - ol) + ol
 
 notes = []
-leds = [NeoColor(0, 0, 0) for x in range(LED_COUNT)]
+leds = [Color("#000000") for x in range(LED_COUNT)]
 
 ports = mido.get_input_names()
 if len(ports) == 1:
