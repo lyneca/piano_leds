@@ -1,4 +1,5 @@
 import mido 
+import time
 import serial
 from colorsys import hsv_to_rgb
 from neopixel import *
@@ -20,7 +21,7 @@ def map_value(i, il, ih, ol, oh):
     return (i - il) / (ih - il) * (oh - ol) + ol
 
 notes = []
-leds = [Color("#000000") for x in range(LED_COUNT)]
+leds = [NeoColor(0, 0, 0) for x in range(LED_COUNT)]
 
 ports = mido.get_input_names()
 if len(ports) == 1:
@@ -37,17 +38,18 @@ strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 
 strip.begin()
 
 def shift():
-    for i in range(1, len(leds)):
-        leds[len(leds) - i] = leds[len(leds) - i + 1]
+    for i in range(0, len(leds)-1):
+        leds[len(leds)-1 - i] = leds[len(leds)-1 - i - 1]
 
 def show_list():
-    mid = strip.numPixels() / 2
+    mid = len(leds) // 2
     for i in range(mid):
         strip.setPixelColor(mid - i, leds[i])
         strip.setPixelColor(mid + i, leds[i])
     strip.show()
 
 while True:
+    show_list()
     shift()
     for message in in_port.iter_pending():
         m_note, m_type = message.note, message.type
@@ -70,5 +72,4 @@ while True:
     else:
         color = Color('#000000')
 
-    rgb = [round(x * 127) for x in color.rgb]
-    print(rgb)
+    leds[0] = NeoColor(*[round(x * 255) for x in color.rgb])
