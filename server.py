@@ -1,5 +1,6 @@
 import mido 
 import time
+import math
 import serial
 from colorsys import hsv_to_rgb
 from neopixel import *
@@ -46,7 +47,7 @@ def show_list():
     for i in range(mid):
         color = leds[i]
         hsv = color.hsv
-        hsv[1] = 0.5 * (1 + sin(mod_i))
+        hsv[1] = 0.5 * (1 + math.sin(mod_i))
 
         mod_i += 0.1;
         if mod_i >= 6.2:
