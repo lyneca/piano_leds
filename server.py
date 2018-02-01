@@ -43,18 +43,19 @@ def shift():
 
 def show_list():
     mid = len(leds) // 2
-    hsv = color.hsv
-    hsv[1] = 0.5 * (1 + sin(mod_i))
-
-    mod_i += 0.1;
-    if mod_i >= 6.2:
-        mod_i = 0
-
-    color.hsv = hsv
-    color = NeoColor(*[round(x * 255) for x in color.rgb])
     for i in range(mid):
-        strip.setPixelColor(mid - i, leds[i])
-        strip.setPixelColor(mid + i, leds[i])
+        color = leds[i]
+        hsv = color.hsv
+        hsv[1] = 0.5 * (1 + sin(mod_i))
+
+        mod_i += 0.1;
+        if mod_i >= 6.2:
+            mod_i = 0
+
+        color.hsv = hsv
+        color = NeoColor(*[round(x * 255) for x in color.rgb])
+        strip.setPixelColor(mid - i, color)
+        strip.setPixelColor(mid + i, color)
     strip.show()
 
 while True:
