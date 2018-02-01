@@ -23,6 +23,7 @@ def map_value(i, il, ih, ol, oh):
 
 notes = []
 leds = [Color("#000000") for x in range(LED_COUNT)]
+mod_i = 0
 
 ports = mido.get_input_names()
 if len(ports) == 1:
