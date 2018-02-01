@@ -50,9 +50,6 @@ def show_list():
         hsv = color.hsv
         hsv[1] = 0.5 * (1 + math.sin(mod_i))
 
-        mod_i += 0.1;
-        if mod_i >= 6.2:
-            mod_i = 0
 
         color.hsv = hsv
         color = NeoColor(*[round(x * 255) for x in color.rgb])
@@ -61,6 +58,10 @@ def show_list():
     strip.show()
 
 while True:
+    mod_i += 0.1;
+    if mod_i >= 6.2:
+        mod_i = 0
+
     show_list()
     shift()
     for message in in_port.iter_pending():
