@@ -47,21 +47,25 @@ def show_list():
     mid = len(leds) // 2
     for i in range(mid):
         color = leds[i]
-        hsv = color.hsv
-        hsv[1] = 0.5 * (1 + math.sin(mod_i))
 
+        #  hsv = list(color.hsv)
+        #  hsv[2] = 0.5 * (1 + math.sin(i / 20))
+        #  color.hsv = tuple(hsv)
 
-        color.hsv = hsv
         color = NeoColor(*[round(x * 255) for x in color.rgb])
         strip.setPixelColor(mid - i, color)
         strip.setPixelColor(mid + i, color)
     strip.show()
 
-while True:
-    mod_i += 0.1;
-    if mod_i >= 6.2:
-        mod_i = 0
+switch_i = 0
 
+def dim(c, b):
+    hls = c.hls
+    n = Color()
+    n.hls = (hls[0], b / 2, hls[2])
+    return n
+
+while True:
     show_list()
     shift()
     for message in in_port.iter_pending():
@@ -76,17 +80,35 @@ while True:
 
     colors = []
     for note in notes:
-        scale_note = (note - 21) % 24
+        scale_note = (note - 21) % 48
         #  color_value = map_value(note, 21, 108, 0, 1)
-        color_value = map_value(scale_note, 0, 23, 0, 1)
+        color_value = map_value(scale_note, 0, 47, 0, 1)
         colors.append(Color(hsv_to_rgb(color_value, 1, 1), 'RGB'))
 
     if colors:
-        new = colors[0]
-        for color in colors[1:]:
-            new = new + color
-        color = new
+        # Defines how colors are blended if multiple keys are held down
+
+        # Blend the two colors
+        #  new = dim(colors[0], 11 / (len(colors) + 10))
+        #  for i, color in enumerate(colors[1:]):
+           #  new = new + dim(color, (i + 11) / (len(colors) + 10))
+        #  color = new
+
+        # Just use the last key pressed
         #  color = colors[-1]
+
+        # Blend only the last two colors
+        if len(colors) == 1:
+            color = colors[0]
+        else:
+            color = colors[-2] + colors[-1]
+
+        # Switch between the keys pressed each step
+        #  if switch_i > 10:
+            #  switch_i = 0
+        #  switch_i += 1
+        #  color = colors[switch_i % len(colors)]
+
     else:
         color = Color('#000000')
 
