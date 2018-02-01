@@ -37,7 +37,7 @@ strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, 
 strip.begin()
 
 def shift():
-    for i in range(len(1, leds)):
+    for i in range(1, len(leds)):
         leds[len(leds) - i] = leds[len(leds) - i + 1]
 
 def show_list():
