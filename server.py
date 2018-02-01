@@ -54,10 +54,12 @@ while True:
     for message in in_port.iter_pending():
         if message.type == 'note_on':
             m_note = message.note
-            notes.append(m_note)
+            if m_note not in notes:
+                notes.append(m_note)
         elif message.type == 'note_off':
             m_note = message.note
-            notes.remove(m_note)
+            if m_note in notes:
+                notes.remove(m_note)
 
     colors = []
     for note in notes:
