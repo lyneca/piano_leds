@@ -64,11 +64,11 @@ while True:
         colors.append(Color(hsv_to_rgb(color_value, 1, 1), 'RGB'))
 
     if colors:
-        #  new = colors[0]
-        #  for color in colors[1:]:
-            #  new = new + color
-        #  color = new
-        color = colors[-1]
+        new = colors[0]
+        for color in colors[1:]:
+            new = new + color
+        color = new
+        #  color = colors[-1]
     else:
         color = Color('#000000')
 
